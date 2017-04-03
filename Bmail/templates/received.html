@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Bmail | Inbox
+{% endblock title %}
+
+
+{% block body %}
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <tr>
+        <th> From:</th>
+        <th> Subject: </th>
+        <th> Message: </th>
+    </tr>
+
+{% for message in messages|sort(attribute='time', reverse = True) %}
+<tr>
+      <td> {{ from }} </td>
+      <td> {{ subject }}</td>
+      <td> {{ email }} </td>
+</tr>
+{% endfor %}
+    </table>
+</div>
+
+{% endblock body %}

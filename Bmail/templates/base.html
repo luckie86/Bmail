@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block redirect %} {% endblock redirect %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} {% endblock title %}</title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="icon" href="/assets/img/bmail.ico" type="image/x-icon">
+</head>
+<body>
+
+<div class="container-fluid">
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <img class="text-center img img-responsive" src="/assets/img/bmail.jpg">
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#myModal" data-toggle="modal" data-target="#myModal">New</a></li>
+                    <li><a href="/received">Received</a></li>
+                    <li><a href="sent">Sent</a></li>
+                    <li><a href="weather">Weather</a></li>
+
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                    </form>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">New message</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="/received">
+                            <input class="input" type="hidden" name="sender" value="##########################">  </input>
+                            <h4>To:</h4>
+                            <input class="input" name="receiver"> </input>
+                            <h4>Subject:</h4>
+                            <input class="input" name="subject"> </input>
+                            <br>
+                            <br>
+                            <textarea name="email_content" rows="10" cols="50"></textarea>
+                            <br>
+                            <br>
+                            <button class="btn btn-primary" type="submit"> Send </button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% block body %} {% endblock body %}
+
+</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+</html>
