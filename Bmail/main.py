@@ -55,7 +55,7 @@ class CreateAccountHandler(BaseHandler):
         # 2 Ustvari uporabnika.
         else:
             password_hash = hmac.new(password).hexdigest()
-            save_user = User(name=name, last_name=last_name, user_name=user_name, password=password_hash)
+            save_user = User(name=name, last_name=last_name, user_name=user_name, email=email, password=password_hash)
             save_user.put()
             return self.redirect("index.html")
 
@@ -75,7 +75,7 @@ class CreateAccountHandler(BaseHandler):
         # 2 Ustvari uporabnika.
         else:
             password_hash = hmac.new(password).hexdigest()
-            save_user = User(name=name, last_name=last_name, user_name=user_name, password=password_hash)
+            save_user = User(name=name, last_name=last_name, user_name=user_name, email=email, password=password_hash)
             save_user.put()
             return self.redirect("index.html")
 
