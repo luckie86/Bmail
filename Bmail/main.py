@@ -115,10 +115,11 @@ class SentHandler(BaseHandler):
 
 class WeatherHandler(BaseHandler):
     def get(self):
-        url = "http://api.openweathermap.org/data/2.5/weather?q=Celje,si&APPID=0fa4f697d72b1a4616a02c99f798df9c"
-        data = urlfetch.fetch(url).content
-        json_data = json.loads(data)
-        return self.render_template("weather.html", json_data)
+        url = "http://api.openweathermap.org/data/2.5/weather?q=Celje,si&units=metric&APPID=0fa4f697d72b1a4616a02c99f798df9c"
+        result = urlfetch.fetch(url)
+        data = json.loads(result.content)
+        params = {"data": data}
+        return self.render_template("weather.html", params)
 
 app = webapp2.WSGIApplication([
     webapp2.Route('/', LoginHandler),

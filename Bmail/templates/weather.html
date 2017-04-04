@@ -7,6 +7,24 @@
 
 {% block body %}
 
-
-
+<div class="table-responsive">
+  <table class="table table-hover">
+    <tr>
+        <th> City:</th>
+        <th> Description: </th>
+        <th> Temperature Current: </th>
+        <th> Temperature Min: </th>
+        <th> Temperature Max: </th>
+        <th> Wind Speed: </th>
+    </tr>
+    <tr>
+      <td> {{ data.name }} </td>
+      <td> {{ data.weather[0].main }} </td>
+        <td> {{ data.main.temp }}  </td>
+      <td> {{ data.main.temp_min }}  </td>
+        <td> {{ data.main.temp_max }}  </td>
+        <td> {{ data.wind.speed }}  </td>
+    </tr>
+    </table>
+</div>
 {% endblock body %}
