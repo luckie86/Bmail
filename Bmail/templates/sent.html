@@ -15,11 +15,11 @@
         <th> Message: </th>
     </tr>
 
-{% for message in messages|sort(attribute='time', reverse = True) %}
+{% for email in emails|sort(attribute='time', reverse = True) %}
 <tr>
-      <td> {{ from }} </td>
-      <td> {{ subject }}</td>
-      <td> {{ email }} </td>
+      <td> {{ email.sender }} </td>
+      <td> {{ email.subject }}</td>
+      <td> {{ email.email }} </td>
 </tr>
 {% endfor %}
     </table>

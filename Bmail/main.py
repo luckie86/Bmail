@@ -50,14 +50,14 @@ class CreateAccountHandler(BaseHandler):
         user_from_base = User.query(User.email == email).fetch()
         user_from_base_email = user_from_base.email()
         if user_from_base_email == email:
-            message = {"message": "User with %s already exists" % email}
+            message = ("User with %s already exists" % email)
             return self.display_message(message=message)
         # 2 Ustvari uporabnika.
         else:
             password_hash = hmac.new(password).hexdigest()
             save_user = User(name=name, last_name=last_name, user_name=user_name, email=email, password=password_hash)
             save_user.put()
-            return self.redirect("index.html")
+        return self.redirect("index.html")
 
     def post(self):
         # 1 Preveri da uporabnik z emailom ne obstaja.
@@ -70,7 +70,7 @@ class CreateAccountHandler(BaseHandler):
         user_from_base = User.query(User.email == email).fetch()
         user_from_base_email = user_from_base.email()
         if user_from_base_email == email:
-            message = {"message": "User with %s already exists" % email}
+            message = ("User with %s already exists" % email)
             return self.display_message(message=message)
         # 2 Ustvari uporabnika.
         else:
@@ -90,12 +90,12 @@ class LoginHandler(BaseHandler):
         password_hash = hmac.new(password).hexdigest()
         users = User.query(User.email == email).fetch()
         if len(users) == 0:
-            message = {"message": "There is no user with %s" % email}
+            message = ("There is no user with %s email" % email)
             return self.display_message(message=message)
         else:
             user = users[0]
             if user.password != password_hash:
-                message = {"message": "Wrong password"}
+                message = ("Wrong password")
                 return self.display_message(message=message)
 
         return self.redirect("/home")
@@ -107,11 +107,33 @@ class HomeHandler(BaseHandler):
 
 class ReceivedHandler(BaseHandler):
     def get(self):
-        return self.render_template("received.html")
+        user = users.get_current_user()
+        if user:
+            email = user.email()
+            emails = Email.query(Email.receiver == email).fetch()
+            params = {"emails": emails}
+            return self.render_template("received.html", params)
+
+class EachReceivedEmailHandler(BaseHandler):
+    def get(self, email_id):
+        email = Email.get_by_id(int(email_id))
+        params = {"email": email}
+        return self.render_template("received-details.html", params)
 
 class SentHandler(BaseHandler):
     def get(self):
-        return self.render_template("sent.html")
+        user = users.get_current_user()
+        if user:
+            email = user.email()
+            emails = Email.query(Email.sender == email).fetch()
+            params = {"emails": emails}
+            return self.render_template("sent.html", params)
+
+class EachSentEmailHandler(BaseHandler):
+    def get(self, email_id):
+        email = Email.get_by_id(int(email_id))
+        params = {"email": email}
+        return self.render_template("sent-details.html", params)
 
 class WeatherHandler(BaseHandler):
     def get(self):
@@ -126,6 +148,8 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/home', HomeHandler),
     webapp2.Route('/create-account', CreateAccountHandler),
     webapp2.Route('/received', ReceivedHandler),
+    webapp2.Route('/received-details/<email_id:\d+>', EachReceivedEmailHandler),
     webapp2.Route('/sent', SentHandler),
+    webapp2.Route('/sent-details/<email_id:\d+>', EachSentEmailHandler),
     webapp2.Route('/weather', WeatherHandler),
 ], debug=True)
