@@ -112,7 +112,6 @@ class WeatherHandler(BaseHandler):
         return self.render_template("weather.html", params)
 
 app = webapp2.WSGIApplication([
-    webapp2.Route('/', NewEmailHandler),
     webapp2.Route('/', MainHandler),
     webapp2.Route('/loading', LoadingHandler),
     webapp2.Route('/received', ReceivedHandler),
