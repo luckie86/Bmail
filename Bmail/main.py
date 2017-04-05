@@ -59,16 +59,6 @@ class LoadingHandler(BaseHandler):
         return self.render_template("loading.html")
 
 
-class NewEmailHandler(BaseHandler):
-    def post(self):
-        sender = self.request.get("sender")
-        receiver = cgi.escape(self.request.get("receiver"))
-        subject = cgi.escape(self.request.get("subject"))
-        email = cgi.escape(self.request.get("email"))
-        save_email = Email(sender=sender, receiver=receiver, subjec=subject, email=email)
-        save_email.put()
-        return self.redirect("/received")
-
 class ReceivedHandler(BaseHandler):
     def get(self):
         user = users.get_current_user()
@@ -77,6 +67,15 @@ class ReceivedHandler(BaseHandler):
             emails = Email.query(Email.receiver == email).fetch()
             params = {"emails": emails}
             return self.render_template("received.html", params)
+
+    def post(self):
+        sender = self.request.get("sender")
+        receiver = cgi.escape(self.request.get("receiver"))
+        subject = cgi.escape(self.request.get("subject"))
+        email = cgi.escape(self.request.get("email"))
+        save_email = Email(sender=sender, receiver=receiver, subject=subject, email=email)
+        save_email.put()
+        return self.redirect("/received")
 
 
 class EachReceivedEmailHandler(BaseHandler):

@@ -10,16 +10,16 @@
 <div class="table-responsive">
   <table class="table table-hover">
     <tr>
-        <th> From:</th>
+        <th> To:</th>
         <th> Subject: </th>
         <th> Message: </th>
     </tr>
 
 {% for email in emails|sort(attribute='time', reverse = True) %}
 <tr>
-      <td> {{ email.sender }} </td>
-      <td> {{ email.subject }}</td>
-      <td> {{ email.email }} </td>
+    <td> <a href="/received-details/{{ email.key.id() }}"> {{ email.receiver }} </a> </td>
+    <td> <a href="/received-details/{{ email.key.id() }}"> {{ email.subject }} </a></td>
+    <td> <a href="/received-details/{{ email.key.id() }}"> {{ email.email }} </a> </td>
 </tr>
 {% endfor %}
     </table>
