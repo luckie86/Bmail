@@ -31,6 +31,7 @@
                     <li><a href="/received">Received</a></li>
                     <li><a href="sent">Sent</a></li>
                     <li><a href="weather">Weather</a></li>
+                    <li><a href="{{ logout_url }}">Logout</a></li>
 
                     <form class="navbar-form navbar-right">
                         <div class="form-group">
@@ -50,14 +51,14 @@
                     </div>
                     <div class="modal-body">
                         <form method="post" action="/received">
-                            <input class="input" type="hidden" name="sender" value="##########################">  </input>
+                            <input class="input" type="hidden" name="sender" value="{{ user.email() }}">  </input>
                             <h4>To:</h4>
                             <input class="input" name="receiver"> </input>
                             <h4>Subject:</h4>
                             <input class="input" name="subject"> </input>
                             <br>
                             <br>
-                            <textarea name="email_content" rows="10" cols="50"></textarea>
+                            <textarea name="email" rows="10" cols="50"></textarea>
                             <br>
                             <br>
                             <button class="btn btn-primary" type="submit"> Send </button>
