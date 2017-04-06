@@ -40,7 +40,7 @@ class BaseHandler(webapp2.RequestHandler):
             params["logout_url"] = logout_url
         else:
             logged_in = False
-            login_url = users.create_login_url('/')
+            login_url = users.create_login_url('/loading')
             params["login_url"] = login_url
 
         params["logged_in"] = logged_in
@@ -102,6 +102,31 @@ class EachSentEmailHandler(BaseHandler):
         return self.render_template("sent-details.html", params)
 
 
+class DeleteSentEmailHandler(BaseHandler):
+    def get(self, email_id):
+        email = Email.get_by_id(int(email_id))
+        params = {"email": email}
+        return self.render_template("delete.html", params)
+
+    def post(self, email_id):
+        email = Email.get_by_id(int(email_id))
+        email.deleted = True
+        email.put()
+        return self.redirect("/sent")
+
+class DeleteReceivedEmailHandler(BaseHandler):
+    def get(self, email_id):
+        email = Email.get_by_id(int(email_id))
+        params = {"email": email}
+        return self.render_template("delete.html", params)
+
+    def post(self, email_id):
+        email = Email.get_by_id(int(email_id))
+        email.deleted = True
+        email.put()
+        return self.redirect("/received")
+
+
 class WeatherHandler(BaseHandler):
     def get(self):
         url = "http://api.openweathermap.org/data/2.5/weather?q=Celje,si&units=metric&APPID=0fa4f697d72b1a4616a02c99f798df9c"
@@ -118,4 +143,6 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/sent', SentHandler),
     webapp2.Route('/sent-details/<email_id:\d+>', EachSentEmailHandler),
     webapp2.Route('/weather', WeatherHandler),
+    webapp2.Route('/delete/<email_id:\d+>', DeleteSentEmailHandler),
+    webapp2.Route('/received-details/<email_id:\d+>/delete', DeleteReceivedEmailHandler),
 ], debug=True)
