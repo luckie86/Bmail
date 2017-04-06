@@ -64,7 +64,7 @@ class ReceivedHandler(BaseHandler):
         user = users.get_current_user()
         if user:
             email = user.email()
-            emails = Email.query(Email.receiver == email).fetch()
+            emails = Email.query(Email.receiver == email, Email.deleted == False).fetch()
             params = {"emails": emails}
             return self.render_template("received.html", params)
 
@@ -90,7 +90,7 @@ class SentHandler(BaseHandler):
         user = users.get_current_user()
         if user:
             email = user.email()
-            emails = Email.query(Email.sender == email).fetch()
+            emails = Email.query(Email.sender == email, Email.deleted == False).fetch()
             params = {"emails": emails}
             return self.render_template("sent.html", params)
 

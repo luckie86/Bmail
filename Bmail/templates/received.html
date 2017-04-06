@@ -8,11 +8,12 @@
 {% block body %}
 
 <div class="table-responsive">
-  <table class="table table-hover">
+  <table class="table table-bordered table-hover">
     <tr>
         <th> From:</th>
         <th> Subject: </th>
         <th> Message: </th>
+        <th> Time: </th>
     </tr>
 
 {% for email in emails|sort(attribute='time', reverse = True) %}
@@ -20,6 +21,7 @@
     <td> <a href="/received-details/{{ email.key.id() }}"> {{ email.sender }}</a> </td>
     <td> <a href="/received-details/{{ email.key.id() }}"> {{ email.subject }}</a></td>
     <td> <a href="/received-details/{{ email.key.id() }}"> {{ email.email }}</a> </td>
+    <td> <a href="/received-details/{{ email.key.id() }}"> {{ email.time }}</a> </td>
 </tr>
 {% endfor %}
     </table>
