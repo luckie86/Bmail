@@ -102,19 +102,7 @@ class EachSentEmailHandler(BaseHandler):
         return self.render_template("sent-details.html", params)
 
 
-class DeleteSentEmailHandler(BaseHandler):
-    def get(self, email_id):
-        email = Email.get_by_id(int(email_id))
-        params = {"email": email}
-        return self.render_template("delete.html", params)
-
-    def post(self, email_id):
-        email = Email.get_by_id(int(email_id))
-        email.deleted = True
-        email.put()
-        return self.redirect("/sent")
-
-class DeleteReceivedEmailHandler(BaseHandler):
+class DeleteEmailHandler(BaseHandler):
     def get(self, email_id):
         email = Email.get_by_id(int(email_id))
         params = {"email": email}
@@ -143,6 +131,5 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/sent', SentHandler),
     webapp2.Route('/sent-details/<email_id:\d+>', EachSentEmailHandler),
     webapp2.Route('/weather', WeatherHandler),
-    webapp2.Route('/delete/<email_id:\d+>', DeleteSentEmailHandler),
-    webapp2.Route('/received-details/<email_id:\d+>/delete', DeleteReceivedEmailHandler),
+    webapp2.Route('/delete/<email_id:\d+>', DeleteEmailHandler),
 ], debug=True)
