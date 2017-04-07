@@ -11,8 +11,9 @@
 
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
     <form method="post" action="/delete/{{ email.key.id() }}">
-        <h3> {{ email.sender }}</h3>
-        <p> {{ email.email }} </p>
+        <h3> From: {{ email.sender }}</h3>
+        <h3> To: {{ email.receiver }}</h3>
+        <p> Email: {{ email.email }} </p>
         <button class="btn btn-primary" type="submit"> Delete </button>
     </form>
 </div>
